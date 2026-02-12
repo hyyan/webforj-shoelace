@@ -1,0 +1,11 @@
+Scaffold a webforJ Spring Boot project in this folder using the webforJ MCP server create-project tool (sidemenu archetype, Spring Boot flavor). Group ID: com.webforj.shoelace, artifact ID: webforj-shoelace.
+
+Then port every Shoelace web component (https://shoelace.style) into webforJ. Every component, every feature, no exceptions.
+
+This is a Java-first port. Design every API the way a Java developer expects to use it — not a thin wrapper over JS. Each component gets its own sub-package under com.webforj.shoelace.
+
+Create a demo view for each component category showing all features working together. Wire them into the sidemenu navigation.
+
+Write tests for every component. Tests are not optional.
+
+Do not stop. Do not ask for confirmation between components. Work through every component one by one until the full Shoelace library is ported.

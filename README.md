@@ -1,0 +1,128 @@
+# webforj-shoelace
+
+Java-first [Shoelace](https://shoelace.style) component library for [webforJ](https://docs.webforj.com). Every Shoelace web component is wrapped as a type-safe `ElementComposite` with fluent APIs, proper enums, and typed events.
+
+## What's Included
+
+**56 components** across every Shoelace category, each in its own sub-package under `com.webforj.shoelace.components`:
+
+| Category | Components |
+|---|---|
+| **Actions** | Button, ButtonGroup, CopyButton, Dropdown, IconButton |
+| **Data Display** | Avatar, Badge, Breadcrumb, BreadcrumbItem, Card, Carousel, CarouselItem, FormatBytes, FormatDate, FormatNumber, Icon, RelativeTime, Tag, Tree, TreeItem |
+| **Feedback** | Alert, Dialog, Drawer, ProgressBar, ProgressRing, Skeleton, Spinner, Tooltip |
+| **Form Controls** | Checkbox, ColorPicker, Input, Option, Radio, RadioButton, RadioGroup, Range, Rating, Select, Switch, Textarea |
+| **Layout** | Details, Divider, Popup, SplitPanel, Tab, TabGroup, TabPanel |
+| **Media** | AnimatedImage, ImageComparer, Include, QrCode |
+| **Utilities** | Animation, MutationObserver, ResizeObserver, VisuallyHidden |
+
+Plus **58 test classes** with full coverage for properties, slots, and events.
+
+**7 demo views** with a sidemenu layout showcase every component in action.
+
+## Prerequisites
+
+- Java 21 or newer
+- Maven 3.9+
+
+## Getting Started
+
+```bash
+mvn spring-boot:run
+```
+
+Open [http://localhost:8080](http://localhost:8080) in your browser.
+
+## Usage Example
+
+```java
+import com.webforj.shoelace.components.button.Button;
+import com.webforj.shoelace.components.button.Variant;
+import com.webforj.shoelace.components.dialog.Dialog;
+import com.webforj.shoelace.components.input.Input;
+import com.webforj.shoelace.components.select.Select;
+import com.webforj.shoelace.components.option.Option;
+
+// Buttons with variants
+Button btn = new Button("Save", Variant.PRIMARY);
+btn.onClick(e -> save());
+
+// Dialogs move to body automatically on show()
+Dialog dialog = new Dialog("Confirm");
+dialog.add(new Paragraph("Are you sure?"));
+dialog.addToFooter(new Button("Yes", Variant.PRIMARY));
+dialog.show();
+
+// Form controls
+Input email = new Input();
+email.setType(InputType.EMAIL);
+email.setPlaceholder("you@example.com");
+
+Select select = new Select();
+select.add(new Option("us", "United States"));
+select.add(new Option("ca", "Canada"));
+select.onChange(e -> handleCountry());
+```
+
+## Project Structure
+
+```
+src/main/java/com/webforj/shoelace/
+  Application.java              # App entry point (loads Shoelace from CDN)
+  Size.java, Placement.java     # Shared enums
+  components/
+    button/                     # Button, ButtonGroup, Variant, Target, ...
+      event/                    # Component-specific events
+    dialog/                     # Dialog (auto-moves to body on show)
+    drawer/                     # Drawer (auto-moves to body on show)
+    select/                     # Select
+    ...                         # 56 component packages
+  event/                        # Shared events (ShowEvent, HideEvent, ...)
+  views/                        # Demo views + MainLayout
+src/test/java/...               # 58 test classes
+```
+
+## How Components Are Built
+
+Each Shoelace component follows the same pattern:
+
+- **`@NodeName("sl-*")`** maps to the custom element tag
+- **`PropertyDescriptor`** for type-safe property access
+- **Enums with `@SerializedName`** for predefined values (variant, size, placement)
+- **`HasElementClickListener`** on all components for click events
+- **Typed event classes** with `@EventName` and `@EventOptions`
+- **Slot methods** (`addToPrefix()`, `addToFooter()`, etc.) for named slots
+- **Fluent API** — every setter returns `this`
+
+## Shoelace Loading
+
+Shoelace JS and CSS are loaded once at the application level via CDN:
+
+```java
+@JavaScript(
+    value = "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js",
+    attributes = {@Attribute(name = "type", value = "module")})
+@StyleSheet("https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css")
+public class Application extends App { ... }
+```
+
+Individual components do **not** load their own JS/CSS.
+
+## Running Tests
+
+```bash
+mvn test
+```
+
+## Building for Production
+
+```bash
+mvn clean package -Pprod
+java -jar target/webforj-shoelace-1.0-SNAPSHOT.jar
+```
+
+## Learn More
+
+- [Shoelace Components](https://shoelace.style)
+- [webforJ Documentation](https://docs.webforj.com)
+- [webforJ ElementComposite Guide](https://docs.webforj.com/docs/building-ui/web-components/element-composite)
