@@ -127,4 +127,3 @@ java -jar target/webforj-shoelace-1.0-SNAPSHOT.jar
 
 - [Shoelace Components](https://shoelace.style)
 - [webforJ Documentation](https://docs.webforj.com)
-- [webforJ ElementComposite Guide](https://docs.webforj.com/docs/building-ui/web-components/element-composite)
